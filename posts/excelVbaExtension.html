@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./../styles.css">
+    <link rel="stylesheet" href="postsStyles.css">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+</head>
+
+<body>
+
+    <div class="header">
+        <h2>CV - Oscar Trujillo Morales</h2>
+    </div>
+
+    <div class="row">
+        <div class="leftcolumn">
+            <h1>Enhancing Excel Efficiency with VBA Extensions: A Guide to Streamlining Replication, Indexing, and
+                Synchronization</h1>
+
+            <h2>Introduction</h2>
+            <p>
+                In the world of Excel, Visual Basic for Applications (VBA) serves as a powerful tool for automating
+                tasks and extending functionalities beyond the built-in features. This article explores the creation of
+                a VBA extension designed to enhance efficiency by replicating content across multiple sheets, creating
+                indexes, and synchronizing data seamlessly.
+            </p>
+
+            <h2>Replicating Content</h2>
+            <p>
+                One common challenge in Excel is the need to replicate data across multiple sheets. This VBA extension
+                simplifies the process by allowing users to select a source sheet and replicate its content to all other
+                sheets in the workbook. This not only saves time but also ensures data consistency across different
+                sections of the workbook.
+            </p>
+            <pre><code>Sub ReplicateContent()
+    Dim sourceSheet As Worksheet
+    Set sourceSheet = Sheets("SourceSheet") ' Change to the actual name of your source sheet
+    
+    For Each ws In ThisWorkbook.Sheets
+        If ws.Name &lt;&gt; sourceSheet.Name Then
+            sourceSheet.UsedRange.Copy ws.Cells(1, 1)
+        End If
+    Next ws
+End Sub
+</code></pre>
+
+            <h2>Creating Indexes</h2>
+            <p>
+                Maintaining an index of all sheets within a workbook is essential for quick navigation. The VBA
+                extension includes a function to automatically generate an index sheet that lists all sheets along with
+                hyperlinks for easy access.
+            </p>
+            <pre><code>Sub CreateIndex()
+    Dim indexSheet As Worksheet
+    Set indexSheet = Sheets.Add(After:=Sheets(Sheets.Count))
+    indexSheet.Name = "Index"
+    
+    For Each ws In ThisWorkbook.Sheets
+        If ws.Name &lt;&gt; indexSheet.Name Then
+            indexSheet.Hyperlinks.Add _
+                Anchor:=indexSheet.Cells(indexSheet.Cells(indexSheet.Rows.Count, 1).End(xlUp).Row + 1, 1), _
+                Address:="", _
+                SubAddress:="'" & ws.Name & "'!A1", _
+                TextToDisplay:=ws.Name
+        End If
+    Next ws
+End Sub
+</code></pre>
+
+            <h2>Synchronizing Data</h2>
+            <p>
+                Ensuring data consistency across sheets is crucial. The VBA extension provides a synchronization
+                function that updates specified ranges in all sheets based on changes made to the source range in a
+                master sheet.
+            </p>
+            <pre><code>Sub SyncData()
+    Dim masterSheet As Worksheet
+    Dim syncRange As Range
+    
+    Set masterSheet = Sheets("MasterSheet") ' Change to the actual name of your master sheet
+    Set syncRange = masterSheet.Range("A1:B10") ' Change to the actual range you want to synchronize
+    
+    For Each ws In ThisWorkbook.Sheets
+        If ws.Name &lt;&gt; masterSheet.Name Then
+            ws.Range(syncRange.Address).Value = syncRange.Value
+        End If
+    Next ws
+End Sub
+</code></pre>
+
+            <h2>Conclusion</h2>
+            <p>
+                By harnessing the capabilities of VBA, this extension streamlines Excel workflows, making data
+                replication, indexing, and synchronization effortless. Whether you're managing large datasets or
+                creating complex workbooks, incorporating VBA extensions can significantly enhance your productivity and
+                data integrity within Excel. Feel free to customize and expand upon these functionalities to suit your
+                specific needs and make Excel an even more powerful tool in your arsenal.
+            </p>
+
+        </div>
+        <div class="rightcolumn">
+            <div class="card">
+                <a href="portfolio/portfolio.html" target="_blank">
+                    <h2>About Me</h2>
+                </a>
+                <div class="fakeimg" style="height:100px;"><img src="cv img.png" class="img" alt="Avatar"></div>
+                <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+            </div>
+            <div class="card">
+                <h3>Follow Me</h3>
+                <div class="fakeimg"><a href="https://www.linkedin.com/in/oscar-trujillo-morales/"><img
+                            src="linkedin-png-logo-23.png" class="img"></a></div><br>
+            </div>
+            <div class="card">
+                <h3>Other</h3>
+                <p>Some text..</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <h2>Footer</h2>
+    </div>
+
+</body>
+
+</html>
